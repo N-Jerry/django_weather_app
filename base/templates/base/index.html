@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>Weather Me</title>
+  </head>
+  <body>
+    <div>
+      <div class="container">
+        <!-- App Title -->
+        <div>
+          <h1>Weather Anywhere</h1>
+          <img
+            src="{% static 'images/116.png' %}" alt="App icon"/>
+        </div>
+      
+        <!-- Search bar -->
+         <p>For morethan one city, use ","</p>
+        <form method="post">
+          {% csrf_token %}
+          <input type="text" name="city" placeholder="Enter city name(s)" required>
+          <button type="submit">Get Weather</button>
+        </form>
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>City,Country</th>
+              <th>Icon</th>
+              <th>Temperature <ion-icon name="thermometer"></ion-icon></th>
+              <th>Wind Speed <ion-icon name="speedometer"></ion-icon></th>
+              <th>Humidity <ion-icon name="rainy"></ion-icon></th>
+              <th>Pressure <ion-icon name="speedometer"></th>
+              <th>Weather/Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in results %}
+              <tr>
+                <td>{{ result.city }},{{ result.country }}</td>
+                <td><img src="{{ result.icon_url }}" alt="" /></td>
+                <td>{{ result.temperature }}°C</td>
+                <td>{{ result.wind_speed }}m/s</td>
+                <td>{{ result.humidity }}%</td>
+                <td>{{ result.pressure }}hPa</td>
+                <td>{{ result.weather }}/{{ result.weather_description }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>
